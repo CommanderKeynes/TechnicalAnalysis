@@ -7,6 +7,7 @@ from statsmodels.nonparametric.kernel_regression import KernelReg as kr
 from scipy.signal import argrelextrema
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import typing
 
 
 def main():
@@ -82,8 +83,8 @@ def find_rolling_price_windows(hist: pd.DataFrame):
 
     window = 38
 
-    window_price_data = rolling_window(hist['Close'].values, window)
-    window_date_data = rolling_window(hist['Date'].values, window)
+    window_price_data = rolling_window(a=hist['Close'].values, window_input=window, )
+    window_date_data = rolling_window(a=hist['Date'].values, window_input=window, )
 
     return window_price_data, window_date_data
 
@@ -118,7 +119,7 @@ def run_kernel_regressions(window_data: np.array, date_data: np.array, ) -> list
     return result_list
 
 
-def find_extrema_from_list_of_series(window_data: list, ) -> list:
+def find_extrema_from_list_of_series(window_data: typing.List[dict], ) -> list:
 
     result_list = []
     for i in range(0, len(window_data)):
@@ -140,7 +141,8 @@ def find_extrema_from_list_of_series(window_data: list, ) -> list:
     return result_list
 
 
-def find_extrema(regression_line) -> list:
+def find_extrema(regression_line: np.array, ) -> list:
+
     local_maxima_coords = list(argrelextrema(regression_line, np.greater, )[0])
 
     local_minima_coords = list(argrelextrema(regression_line, np.less, )[0])
@@ -152,7 +154,8 @@ def find_extrema(regression_line) -> list:
     return local_extrema_coords
 
 
-def find_series_with_5_or_more_extrema(window_data: list, ) -> list:
+def find_series_with_5_or_more_extrema(window_data: typing.List[dict], ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -163,7 +166,8 @@ def find_series_with_5_or_more_extrema(window_data: list, ) -> list:
     return result_list
 
 
-def plot_chart(price_series_data: dict) -> None:
+def plot_chart(price_series_data: dict, ) -> None:
+
     plt.style.use('seaborn-whitegrid')
 
     fig, ax = plt.subplots()
