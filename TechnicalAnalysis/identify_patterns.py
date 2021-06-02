@@ -169,11 +169,10 @@ def plot_chart(price_series_data: dict) -> None:
     fig, ax = plt.subplots()
 
     y_actual = price_series_data['closing_prices']
-    x = np.linspace(0, len(y_actual), len(y_actual))
-    ax.plot(price_series_data['dates'], y_actual, 'o', color='green');
+    ax.plot(price_series_data['dates'], y_actual, 'o', color='green')
 
     y_regressed = price_series_data['kernel_regression_line']
-    ax.plot(price_series_data['dates'], y_regressed, '-o', color='blue');
+    ax.plot(price_series_data['dates'], y_regressed, '-o', color='blue')
 
     fig.autofmt_xdate()
     ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
@@ -182,6 +181,8 @@ def plot_chart(price_series_data: dict) -> None:
     y_extrema = price_series_data['extrema_y_vals']
     x_extrema = price_series_data['extrema_dates']
     plt.plot(x_extrema, y_extrema, 'x', color='purple')
+
+    ax.axvspan(x_extrema[0], x_extrema[-1], alpha=.5, color='green')
 
 
 def find_head_and_shoulders(window_data: list, ) -> list:
