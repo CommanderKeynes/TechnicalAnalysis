@@ -15,17 +15,40 @@ from TechnicalAnalysis.identify_patterns import (
     find_extrema,
     find_series_with_5_or_more_extrema,
     # plot_chart,
-    # find_head_and_shoulders,
-    # find_inverse_head_and_shoulders,
-    # find_broadening_top,
-    # find_broadening_bottom,
-    # find_triangle_top,
-    # find_triangle_bottom,
-    # find_rectangle_top,
-    # find_rectangle_bottom,
-    # find_double_top,
-    # find_double_bottom,
+    find_head_and_shoulders,
+    find_inverse_head_and_shoulders,
+    find_broadening_top,
+    find_broadening_bottom,
+    find_triangle_top,
+    find_triangle_bottom,
+    find_rectangle_top,
+    find_rectangle_bottom,
+    find_double_top,
+    find_double_bottom,
 )
+
+
+sequence_head_and_shoulders = [100, 90, 120, 90, 100, ]
+sequence_inverse_head_and_shoulders = [100, 110, 80, 110, 100, ]
+sequence_broadening_top = [100, 95, 110, 90, 120, ]
+sequence_broadening_bottom = [100, 105, 90, 106, 80, ]
+sequence_triangle_top = [100, 85, 95, 87, 90, ]
+sequence_triangle_bottom = [100, 110, 105, 107, 106, ]
+sequence_rectangle_top = [100, 75, 101, 76, 102, ]
+sequence_rectangle_bottom = [0, 0, 0, 0, 0, ]
+sequence_double_top = [0, 0, 0, 0, 0, ]
+sequence_double_bottom = [0, 0, 0, 0, 0, ]
+
+
+window_data = [
+    {'extrema_y_vals': sequence_head_and_shoulders, },
+    {'extrema_y_vals': sequence_inverse_head_and_shoulders, },
+    {'extrema_y_vals': sequence_broadening_top, },
+    {'extrema_y_vals': sequence_broadening_bottom, },
+    {'extrema_y_vals': sequence_triangle_top, },
+    {'extrema_y_vals': sequence_triangle_bottom, },
+    {'extrema_y_vals': sequence_rectangle_top, },
+]
 
 
 @pytest.mark.skip(reason='Test not written yet', )
@@ -44,7 +67,7 @@ def test_pull_prices() -> None:
     prices = pull_prices(ticker='TSLA', period='1d')
     minimum_expected_columns = ['Close', 'Date', ]
 
-    assert len(prices.index) > 1
+    assert len(prices.index) > 0
     assert [i for i in minimum_expected_columns if i in list(prices.columns)] == minimum_expected_columns
 
 
@@ -136,100 +159,120 @@ def test_plot_chart() -> None:
     assert False
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_head_and_shoulders() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_head_and_shoulders(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_head_and_shoulders, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_inverse_head_and_shoulders() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_inverse_head_and_shoulders(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_inverse_head_and_shoulders, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_broadening_top() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_broadening_top(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_broadening_top, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_broadening_bottom() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_broadening_bottom(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_broadening_bottom, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_triangle_top() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_triangle_top(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_triangle_top, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_triangle_bottom() -> None:
 
-    """
-    TODO: Write test
-    :return:
-    """
+    output_list = find_triangle_bottom(window_data=window_data, )
 
-    assert False
+    expected_return = [
+        {'extrema_y_vals': sequence_triangle_bottom, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_rectangle_top() -> None:
 
     """
-    TODO: Write test
+    TODO: Write positive test
     :return:
     """
 
-    assert False
+    output_list = find_rectangle_top(window_data=window_data, )
+
+    expected_return = [
+        {'extrema_y_vals': sequence_rectangle_top, }, ]
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
 def test_find_rectangle_bottom() -> None:
 
     """
-    TODO: Write test
+    TODO: Write positive test
     :return:
     """
 
-    pass
+    output_list = find_rectangle_bottom(window_data=window_data, )
+
+    expected_return = []
+
+    assert output_list == expected_return
 
 
-@pytest.mark.skip(reason='Test not written yet', )
+@pytest.mark.skip(message='Need to complete writing test')
 def test_find_double_top() -> None:
 
     """
-    TODO: Write test
+    TODO: Write positive test
     :return:
     """
 
-    pass
+    output_list = find_double_top(window_data=window_data, )
+
+    expected_return = []
+
+    assert output_list == expected_return
+
+
+@pytest.mark.skip(message='Need to complete writing test')
+def test_find_double_bottom() -> None:
+
+    """
+    TODO: Write positive test
+    :return:
+    """
+
+    output_list = find_double_bottom(window_data=window_data, )
+
+    expected_return = []
+
+    assert output_list == expected_return

@@ -240,8 +240,8 @@ def find_inverse_head_and_shoulders(window_data: list, ) -> list:
         e2_and_e4_within_15_basis_points_of_their_average = e4_within_15b_of_e2_e4_avg and e2_within_15b_of_e2_e4_avg
 
         e1_e5_avg = (extrema_y_vals[0] + extrema_y_vals[4]) / 2
-        e1_within_15b_of_e1_e5_avg = abs(extrema_y_vals[0] / e2_e4_avg - 1) <= 0.015
-        e5_within_15b_of_e1_e5_avg = abs(extrema_y_vals[4] / e2_e4_avg - 1) <= 0.015
+        e1_within_15b_of_e1_e5_avg = abs(extrema_y_vals[0] / e1_e5_avg - 1) <= 0.015
+        e5_within_15b_of_e1_e5_avg = abs(extrema_y_vals[4] / e1_e5_avg - 1) <= 0.015
         e1_and_e5_within_15_basis_points_of_their_average = e1_within_15b_of_e1_e5_avg and e5_within_15b_of_e1_e5_avg
 
         price_series_has_head_and_shoulders = (
@@ -277,6 +277,7 @@ def find_broadening_top(window_data: list, ) -> list:
 
 
 def find_broadening_bottom(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -299,6 +300,7 @@ def find_broadening_bottom(window_data: list, ) -> list:
 
 
 def find_triangle_top(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -321,6 +323,7 @@ def find_triangle_top(window_data: list, ) -> list:
 
 
 def find_triangle_bottom(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -346,6 +349,7 @@ def find_triangle_bottom(window_data: list, ) -> list:
 # TODO: Need to make unit test or find another price series
 
 def find_rectangle_top(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -367,7 +371,7 @@ def find_rectangle_top(window_data: list, ) -> list:
             i for i in bottoms_list if abs(i / avg_bottoms) >= .75]
 
         any_bottoms_breached_theshold = len(avg_tops_threshold_breached) == 0
-        any_tops_breached_theshold = len(avg_tops_threshold_breached) == 0
+        any_tops_breached_theshold = len(avg_bottoms_threshold_breached) == 0
 
         lowest_top_greater_than_highest_bottom = max(bottoms_list) < min(tops_list)
 
@@ -386,6 +390,7 @@ def find_rectangle_top(window_data: list, ) -> list:
 # TODO: Need to make unit test or find another price series
 
 def find_rectangle_bottom(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -426,6 +431,7 @@ def find_rectangle_bottom(window_data: list, ) -> list:
 # TODO: Need to make unit test or find another price series
 
 def find_double_top(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -465,6 +471,7 @@ def find_double_top(window_data: list, ) -> list:
 # TODO: Need to make unit test or find another price series
 
 def find_double_bottom(window_data: list, ) -> list:
+
     result_list = []
 
     for i in range(0, len(window_data)):
