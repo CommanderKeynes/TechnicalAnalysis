@@ -15,6 +15,8 @@ from TechnicalAnalysis.identify_patterns import (
     find_extrema,
     find_series_with_5_or_more_extrema,
     # plot_chart,
+    plot_chart_plotly,
+
     find_head_and_shoulders,
     find_inverse_head_and_shoulders,
     find_broadening_top,
@@ -49,6 +51,16 @@ window_data = [
     {'extrema_y_vals': sequence_triangle_bottom, },
     {'extrema_y_vals': sequence_rectangle_top, },
 ]
+
+
+def test_plot_chart_plotly():
+
+    price_series_data = {
+        'dates': [20200101, 20200102, 20200103, 20200104, 20200105],
+        'closing_prices': sequence_broadening_bottom, }
+
+    chart = plot_chart_plotly(price_series_data=price_series_data, )
+    chart.show()
 
 
 @pytest.mark.skip(reason='Test not written yet', )

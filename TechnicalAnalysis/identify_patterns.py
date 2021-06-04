@@ -8,6 +8,20 @@ from scipy.signal import argrelextrema
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import typing
+import logging
+import sys
+import plotly.express as px
+
+
+root = logging.getLogger()
+root.setLevel(logging.DEBUG)
+
+
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+root.addHandler(handler)
 
 
 def main():
@@ -70,21 +84,29 @@ def main():
 
 def pull_prices(ticker: str, period: str) -> pd.DataFrame:
 
+    logging.debug(msg='Pulling price', )
+
     ticker = yf.Ticker(ticker=ticker, )
 
     hist = ticker.history(period=period, )
 
     hist = hist.reset_index()
 
+    logging.debug(msg='Prices pulled', )
+
     return hist
 
 
 def find_rolling_price_windows(hist: pd.DataFrame):
 
+    logging.debug(msg='Finding rolling price window', )
+
     window = 38
 
     window_price_data = rolling_window(a=hist['Close'].values, window_input=window, )
     window_date_data = rolling_window(a=hist['Date'].values, window_input=window, )
+
+    logging.debug(msg='Rolling price window found', )
 
     return window_price_data, window_date_data
 
@@ -98,6 +120,8 @@ def rolling_window(a: np.array, window_input: int, ) -> np.array:
 
 
 def run_kernel_regressions(window_data: np.array, date_data: np.array, ) -> list:
+
+    logging.debug(msg='Running Kernel regressions', )
 
     result_list = []
 
@@ -116,10 +140,14 @@ def run_kernel_regressions(window_data: np.array, date_data: np.array, ) -> list
 
         result_list = result_list + [temp_window_data, ]
 
+    logging.debug(msg='Kernel regressions ran.', )
+
     return result_list
 
 
 def find_extrema_from_list_of_series(window_data: typing.List[dict], ) -> list:
+
+    logging.debug(msg='Finding extrema', )
 
     result_list = []
     for i in range(0, len(window_data)):
@@ -137,6 +165,8 @@ def find_extrema_from_list_of_series(window_data: typing.List[dict], ) -> list:
             for i in temp_window_data['extrema_x_vals']]
 
         result_list = result_list + [temp_window_data, ]
+
+    logging.debug(msg='Extrema found', )
 
     return result_list
 
@@ -156,6 +186,8 @@ def find_extrema(regression_line: np.array, ) -> list:
 
 def find_series_with_5_or_more_extrema(window_data: typing.List[dict], ) -> list:
 
+    logging.debug(msg='Finding series with 5 or more extrema', )
+
     result_list = []
 
     for i in range(0, len(window_data)):
@@ -163,10 +195,14 @@ def find_series_with_5_or_more_extrema(window_data: typing.List[dict], ) -> list
         if len(window_data[i]['extrema_x_vals']) >= 5:
             result_list = result_list + [window_data[i], ]
 
+    logging.debug(msg='Found series with 5 or more extrema', )
+
     return result_list
 
 
-def plot_chart(price_series_data: dict, ) -> None:
+def plot_chart(price_series_data: dict, ):
+
+    logging.debug(msg='Plotting graph', )
 
     plt.style.use('seaborn-whitegrid')
 
@@ -187,6 +223,22 @@ def plot_chart(price_series_data: dict, ) -> None:
     plt.plot(x_extrema, y_extrema, 'x', color='purple')
 
     ax.axvspan(x_extrema[0], x_extrema[-1], alpha=.5, color='green')
+
+    logging.debug(msg='Graph plotted', )
+
+    return fig
+
+
+def plot_chart_plotly(price_series_data: dict, ):
+
+    logging.debug(msg='Plotting graph', )
+
+    y_actual = price_series_data['closing_prices']
+    fig = px.line(x=price_series_data['dates'], y=y_actual, )
+
+    logging.debug(msg='Graph plotted', )
+
+    return fig
 
 
 def find_head_and_shoulders(window_data: list, ) -> list:
